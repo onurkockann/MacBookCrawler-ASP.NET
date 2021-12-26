@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - MacBooks</title>
+    <link href="/faws/css/all.css" rel="stylesheet"> <!--load all styles -->
+    <script defer src="/faws/js/all.js"></script> <!--load all styles -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    @RenderSection("head", false)
+</head>
+<body>
+    <nav class="navbar navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/Home/Index">MacBook Web Crawler</a>
+            @if (ViewBag.Admin == "1")
+            {
+                <div align="right">
+                    <ul class="navbar-nav media-right mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="navbar-text" href="/Home/FetchAgain" onclick="return confirm('All products will be fethcing on 4 sites again for once. Do you want to continue?')">
+                                <i class="fas fa-sync" style="color:white;"></i>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="navbar-text" href="/Home/SaveData">
+                                <i class="fas fa-save" style="color:white;" onclick="return confirm('All products will be fetching on 4 sites again and replaced with old datas. Do you want to continue?')"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            }
+        </div>
+        
+    </nav>
+    @if (ViewBag.Alert != null)
+    {
+        <div style="background-color:limegreen; width:100%; height:10%;" id="alertpanel">
+            <div class="row">
+                <div class="col-md-6">
+                    <strong style="color:white; margin-left:2%;">@ViewBag.Alert</strong>
+                </div>
+                <div class="col-md-6" align="right">
+                    <button type="button" id="alertclose" class="btn btn-danger btn-sm">X</button>
+                </div>
+            </div>
+        </div>
+    }
+
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - MacBook Crawler Application. For more information, check <a href="https://github.com/onurkockann/MacBookCrawler-ASP.NET-MVC">here!</a></p>
+        </footer>
+    </div>
+    @RenderSection("body", false)
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    @RenderSection("scripts", false)
+</body>
+</html>

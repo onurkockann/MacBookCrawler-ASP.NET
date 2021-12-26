@@ -1,0 +1,201 @@
+﻿@{
+    ViewBag.Title = "Web Crawler";
+
+    int amazonCounter = Convert.ToInt32(ViewBag.amazonCounter);
+    int n11Counter = Convert.ToInt32(ViewBag.n11Counter);
+    int trendyolCounter = Convert.ToInt32(ViewBag.trendyolCounter);
+    int teknosaCounter = Convert.ToInt32(ViewBag.teknosaCounter);
+
+    int TotalCount = Convert.ToInt32(ViewBag.TotalMacs);
+
+    string tempAmz = "", tempN11 = "", tempTy = "", tempTkn = "";
+
+    if (TotalCount != 0)
+    {
+        tempAmz = ((amazonCounter * 100) / TotalCount).ToString();
+        tempAmz += "%";
+        tempN11 = ((n11Counter * 100) / TotalCount).ToString();
+        tempN11 += "%";
+        tempTy = ((trendyolCounter * 100) / TotalCount).ToString();
+        tempTy += "%";
+        tempTkn = ((teknosaCounter * 100) / TotalCount).ToString();
+        tempTkn += "%";
+    }
+
+    string s = ",";
+    string n = ".";
+    string tl = "TL";
+}
+@using MacBookCrawler.Models
+@model List<Product>
+
+<div class="h-100 p-5 bg-light border rounded-3">
+    <h1>MacBook Crawler</h1>
+    <p class="lead">All of listed MacBooks in here! We serve MacBooks product listings via fetching web sites data</p>
+    <hr />
+    <div align="right">
+        <input type="button" class="btn btn-secondary" id="paneltg" value="-">
+    </div>
+    <br />
+    <div class="container" id="panel">
+        <form action="/Home/FilterFetch" method="post" role="form">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="progress">
+                        <label for="site1">Amazon</label><strong>(@amazonCounter)</strong>
+                        <div class="progress-bar" id="site1" role="progressbar" style="width: @tempAmz" aria-valuemin="0" aria-valuemax="100">@tempAmz</div>
+                    </div>
+                    <br />
+                    <div class="progress">
+                        <label for="site2">Trendyol</label><strong>(@trendyolCounter)</strong>
+                        <div class="progress-bar" id="site2" role="progressbar" style="width: @tempTy" aria-valuemin="0" aria-valuemax="100">@tempTy</div>
+                    </div>
+                    <br />
+                    <div class="progress">
+                        <label for="site3">N11</label><strong>(@n11Counter)</strong>
+                        <div class="progress-bar" id="site3" role="progressbar" style="width: @tempN11" aria-valuemin="0" aria-valuemax="100">@tempN11</div>
+                    </div>
+                    <br />
+                    <div class="progress">
+                        <label for="site4">Teknosa</label><strong>(@teknosaCounter)</strong>
+                        <div class="progress-bar" id="site4" role="progressbar" style="width: @tempTkn" aria-valuemin="0" aria-valuemax="100">@tempTkn</div>
+                    </div>
+
+                </div>
+                <div class="col-md-6">
+                    <label for="inputEmail4">Title Contains;</label>
+                    <input type="text" class="form-control" id="inputEmail4" placeholder="..256GB" name="titleCont">
+                    <br />
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Min Price:</label>
+                            <input type="number" class="form-control" name="minPrice" min="0" max="100000" placeholder="0">
+                        </div>
+                        <div class="col-md-6">
+                            <label>Max Price:</label>
+                            <input type="number" class="form-control" name="maxPrice" min="0" max="500000" placeholder="25000">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <br />
+            <div class="row" align="center">
+                <div class="col-md-3">
+                    <div class="form-check form-switch">Amazon<input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault0" checked name="Mplaces" value="Amazon"></div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-check form-switch">Trendyol<input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault1" checked name="Mplaces" value="Trendyol"></div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-check form-switch">N11<input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault2" checked name="Mplaces" value="N11"></div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-check form-switch">Teknosa<input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault3" checked name="Mplaces" value="Teknosa"></div>
+                </div>
+            </div>
+            <br />
+            <br />
+            <div class="row">
+                <div class="col-md-6" align="right">
+                    <button type="submit" class="btn btn-primary btn-lg" id="apply">Apply</button>
+                </div>
+                <div class="col-md-6" align="left">
+                    <a href="/Home/Index" class="btn btn-danger btn-lg" id="reset">Reset</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<br />
+
+@if (Model != null)
+{
+    <div class="card-deck row" align="center">
+
+        @foreach (Product item in Model)
+        {
+            <div class="card col-md-3 mb-3" style="margin-right:50px; margin-left:50px;">
+                <img class="card-img-top" src="@item.ImageURL" alt="Product image does not exist...">
+                <div class="card-body">
+                    <h5 class="card-title">@item.Name</h5>
+                    <div class="card-text">
+                        <div class="badge bg-danger" align="center">
+                            <h4>
+                                @if (item.Price.Length == 7 && Int32.Parse(item.Price) >= 10000)
+                                {
+                                    @item.Price.Substring(0, 2) @n @item.Price.Substring(2, 3) @s @item.Price.Substring(5, 2) @tl
+                                }
+                                else if (item.Price.Length == 6 && Int32.Parse(item.Price) >= 1000)
+                                {
+                                    @item.Price.Substring(0, 2) @n @item.Price.Substring(2, 3) @s @item.Price.Substring(4, 2) @tl
+                                }
+                                else if (item.Price.Length == 8 && Int32.Parse(item.Price) >= 100000)
+                                {
+                                    @item.Price.Substring(0, 2) @n @item.Price.Substring(2, 3) @s @item.Price.Substring(6, 2) @tl
+                                }
+                                else
+                                {
+                                    @item.Price.Substring(0, 2) @n @item.Price.Substring(2, 3) @tl
+                                }
+
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="row card-footer">
+                    <div class="col-md-7" align="left">
+                        <a href="@item.Link" target="_blank" class="btn btn-primary">Check details</a>
+                    </div>
+                    <div class="col-md-5" align="right">
+                        @item.Firm
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#fchange").click(function () {
+            $("#price").text("Price range; 1TL - " + $("#fchange").val() + "TL");
+        });
+
+
+        $("#paneltg").click(function () {
+            $("#panel").fadeToggle();
+        });
+
+        $("#alertclose").click(function () {
+            $("#alertpanel").fadeOut(500);
+        });
+    });
+
+    document.getElementById("paneltg").addEventListener(
+        "click",
+        function (event) {
+            if (event.target.value === "+") {
+                event.target.value = "-";
+            } else {
+                event.target.value = "+";
+            }
+        },
+        false
+    );
+
+    $("#reset").click(function () {
+        $('#reset').on("click", function (e) {
+            e.preventDefault();
+        });
+    });
+
+    $("#apply").click(function () {
+        $('#apply').on("click", function (e) {
+            e.preventDefault();
+        });
+    });
+
+</script>
