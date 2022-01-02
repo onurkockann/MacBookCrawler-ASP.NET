@@ -122,22 +122,26 @@
                     <div class="card-text">
                         <div class="badge bg-danger" align="center">
                             <h4>
-                                @if (item.Price.Length == 7 && Int32.Parse(item.Price) >= 10000)
+                                @if (item.Price != null && item.Price != "")
                                 {
-                                    @item.Price.Substring(0, 2) @n @item.Price.Substring(2, 3) @s @item.Price.Substring(5, 2) @tl
+                                    if (item.Price.Length == 7 && Int32.Parse(item.Price) >= 10000)
+                                    {
+                                        @item.Price.Substring(0, 2) @n @item.Price.Substring(2, 3) @s @item.Price.Substring(5, 2) @tl
+                                    }
+                                    else if (item.Price.Length == 6 && Int32.Parse(item.Price) >= 1000)
+                                    {
+                                        @item.Price.Substring(0, 2) @n @item.Price.Substring(2, 3) @s @item.Price.Substring(4, 2) @tl
+                                    }
+                                    else if (item.Price.Length == 8 && Int32.Parse(item.Price) >= 100000)
+                                    {
+                                        @item.Price.Substring(0, 2) @n @item.Price.Substring(2, 3) @s @item.Price.Substring(6, 2) @tl
+                                    }
+                                    else
+                                    {
+                                        @item.Price.Substring(0, 2) @n @item.Price.Substring(2, 3) @tl
+                                    }
                                 }
-                                else if (item.Price.Length == 6 && Int32.Parse(item.Price) >= 1000)
-                                {
-                                    @item.Price.Substring(0, 2) @n @item.Price.Substring(2, 3) @s @item.Price.Substring(4, 2) @tl
-                                }
-                                else if (item.Price.Length == 8 && Int32.Parse(item.Price) >= 100000)
-                                {
-                                    @item.Price.Substring(0, 2) @n @item.Price.Substring(2, 3) @s @item.Price.Substring(6, 2) @tl
-                                }
-                                else
-                                {
-                                    @item.Price.Substring(0, 2) @n @item.Price.Substring(2, 3) @tl
-                                }
+
 
                             </h4>
                         </div>
