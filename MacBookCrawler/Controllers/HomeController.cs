@@ -32,11 +32,42 @@ namespace MacBookCrawler.Controllers
                 FetchTrendyol trendyolsMac = new FetchTrendyol();
                 FetchTeknosa teknosasMac = new FetchTeknosa();
 
-
-                UrunlerAmz = new List<Product>(amazonsMac.FetchProducts());
-                UrunlerN11 = new List<Product>(n11sMac.FetchProducts());
-                UrunlerTrendyol = new List<Product>(trendyolsMac.FetchProducts());
-                urunlerTeknosa = new List<Product>(teknosasMac.FetchProducts());
+                //Try to fetching on amazon.com.tr
+                try
+                {
+                    UrunlerAmz = new List<Product>(amazonsMac.FetchProducts());
+                }
+                catch (Exception)
+                {
+                    UrunlerAmz.Clear();
+                }
+                //Try to fetching on n11.com
+                try
+                {
+                    UrunlerN11 = new List<Product>(n11sMac.FetchProducts());
+                }
+                catch (Exception)
+                {
+                    UrunlerN11.Clear();
+                }
+                //Try to fetching on trendyol.com
+                try
+                {
+                    UrunlerTrendyol = new List<Product>(trendyolsMac.FetchProducts());
+                }
+                catch (Exception)
+                {
+                    UrunlerTrendyol.Clear();
+                }
+                //Try to fetching on teknosa.com
+                try
+                {
+                    urunlerTeknosa = new List<Product>(teknosasMac.FetchProducts());
+                }
+                catch (Exception)
+                {
+                    urunlerTeknosa.Clear();
+                }
 
                 UrunlerAll.AddRange(UrunlerAmz);
                 UrunlerAll.AddRange(UrunlerN11);
