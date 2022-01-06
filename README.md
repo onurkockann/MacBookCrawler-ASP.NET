@@ -1,6 +1,6 @@
 # MacBookCrawler-ASP.NET
 
-The project designed as an app and have been pushed on hosting. You can look at the website : http://www.macbookcrawler.somee.com/
+The project designed as an app and have been pushed on hosting. You can look at the website : https://www.macbookcrawler.somee.com/
 
 Also, you can run the project as localhost like below;
 
